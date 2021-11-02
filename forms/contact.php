@@ -2,7 +2,7 @@
 include("../assets/php/connectdb.php");
 require '../assets/vendor/sendgrid-php/sendgrid-php.php';
 
-$SENDGRID_API_KEY = //VOID
+$SENDGRID_API_KEY = NULL; //VOID
 
 $sendgrid = new SendGrid(getenv('VOID')); //api key from SendGrid
 $sg_email = new SendGrid\Mail\Mail();
@@ -14,7 +14,7 @@ $super_owner = $row['admin_id'];
 $user_name = $row['admin_name'];
 
 //$receiving_email_address = $row['email'];
-$receiving_email_address = "yushairie_simcity@yahoo.com";
+$receiving_email_address = NULL; //email?
 
 $sender_name = $_POST['name'];
 $sender_subject = $_POST['subject'];
