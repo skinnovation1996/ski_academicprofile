@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Useless</title>
+<script type='text/javascript' src='http://code.jquery.com/jquery-1.11.0.min.js'></script>
+<script type="text/javascript">
+
+$.ajax({
+    type:     "GET",
+    url:      "http://listen.litefm.com.my", // <-- Here
+    dataType: "jsonp",
+    success: function(data){
+        console.log(data);
+    }
+});
+</script>
+</head>
+<body>
+
+<div class="content" >Hello</div>
+
+</body>
+</html>
