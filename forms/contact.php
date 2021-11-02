@@ -2,9 +2,9 @@
 include("../assets/php/connectdb.php");
 require '../assets/vendor/sendgrid-php/sendgrid-php.php';
 
-$SENDGRID_API_KEY = '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';
+$SENDGRID_API_KEY = //VOID
 
-$sendgrid = new SendGrid(getenv('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')); //api key from SendGrid
+$sendgrid = new SendGrid(getenv('VOID')); //api key from SendGrid
 $sg_email = new SendGrid\Mail\Mail();
 
 $userid = $_POST['user_id'];
