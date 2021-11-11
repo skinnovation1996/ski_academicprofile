@@ -54,44 +54,56 @@ if(isset($_POST['submit-button'])){
     $activity = "Not Specified";
     $outcome = "Not Specified";
     
+    $credits = 50;
+    if($owner_credits < $credits){
+        $errorCode = "NOT_ENOUGH_CREDITS";
+        $errorMsg = "You don't have enough credits to perform this action. <a href='topup-credits.php'><b>Please reload your credits.</b></a>";
+        $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
+        $_SESSION['academicprofile_success_msg'] = NULL;
+        header("location:../add-student.php");
+    }
+    $new_credits = $owner_credits - $credits;
 
-    if($tmppicture != NULL){
-        if(!file_exists("../uploads/images/$regnum/")){
-            mkdir("../uploads/images/$regnum/", 0777, true);
-        }
-                    
-        if(file_exists("../uploads/images/$regnum/" . basename($picture))){
-            $errorCode = "FILE_ALREADY_EXISTS";
-            $errorMsg = "$picture - File already exists in our server. Please rename and try again!";
-            $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
-            header("location:../add-student.php");
-        }
-        else if($filesize1 > 3000000){
-            $errorCode = "FILE_SIZE_TOO_LARGE";
-            $errorMsg = "$picture - The selected file size is too large! Maximum 3MB allowed";
-            $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
-            header("location:../add-student.php");
-        }else if(!in_array($ext,$allowed)) {
-			$errorCode = "UNSUPPORTED_FILE_SIZE";
-            $errorMsg = "$picture - Unsupported file format (only JPG/PNG/JPEG/BMP/GIF)!";
-            $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
-            header("location:../add-student.php");
-        } 
+    if($errorCode == NULL){
+
+        if($tmppicture != NULL){
+            if(!file_exists("../uploads/images/$regnum/")){
+                mkdir("../uploads/images/$regnum/", 0777, true);
+            }
                         
-        if (move_uploaded_file($tmppicture, "../uploads/images/$regnum/" . basename($picture))) {
-            $file_uploaded1 = $picture;
-        } else {
-            $errorCode = "UPLOAD_FAILED";
-            $errorMsg = "$picture - File upload failed. Please try again later.";
-            $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
-            header("location:../add-student.php");
+            if(file_exists("../uploads/images/$regnum/" . basename($picture))){
+                $errorCode = "FILE_ALREADY_EXISTS";
+                $errorMsg = "$picture - File already exists in our server. Please rename and try again!";
+                $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
+                $_SESSION['academicprofile_success_msg'] = NULL;
+                header("location:../add-student.php");
+            }
+            else if($filesize1 > 3000000){
+                $errorCode = "FILE_SIZE_TOO_LARGE";
+                $errorMsg = "$picture - The selected file size is too large! Maximum 3MB allowed";
+                $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
+                $_SESSION['academicprofile_success_msg'] = NULL;
+                header("location:../add-student.php");
+            }else if(!in_array($ext,$allowed)) {
+                $errorCode = "UNSUPPORTED_FILE_SIZE";
+                $errorMsg = "$picture - Unsupported file format (only JPG/PNG/JPEG/BMP/GIF)!";
+                $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
+                $_SESSION['academicprofile_success_msg'] = NULL;
+                header("location:../add-student.php");
+            } 
+                            
+            if (move_uploaded_file($tmppicture, "../uploads/images/$regnum/" . basename($picture))) {
+                $file_uploaded1 = $picture;
+            } else {
+                $errorCode = "UPLOAD_FAILED";
+                $errorMsg = "$picture - File upload failed. Please try again later.";
+                $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
+                $_SESSION['academicprofile_success_msg'] = NULL;
+                header("location:../add-student.php");
+            }
+        }else{
+            $file_uploaded1 = "no_image.jpg";
         }
-    }else{
-        $file_uploaded1 = "no_image.jpg";
     }
 
     if($errorCode == NULL){
@@ -109,13 +121,14 @@ if(isset($_POST['submit-button'])){
             $errorCode = "SQL_DB_FAILED";
             $errorMsg = "There's a problem with MySQL Database. Please contact administrator.<br>Error Details: ". mysqli_error();
             $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
+            $_SESSION['academicprofile_success_msg'] = NULL;
             header("location:../add-student.php");
         }
 
     }
 
     if($errorCode == NULL){
+        $sql = mysqli_query($conn, "UPDATE tbl_admin SET credits='$new_credits' WHERE admin_id='$super_owner'");
         $_SESSION['academicprofile_success_msg'] = "You have successfully added the student! For students first-time login, they use matric number as password.";
         $_SESSION['academicprofile_error_msg'] = NULL;
         header("location:../$back_button");

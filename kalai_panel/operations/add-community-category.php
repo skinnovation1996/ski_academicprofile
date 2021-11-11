@@ -23,7 +23,7 @@ if(isset($_POST['submit-button'])){
             $errorCode = "SQL_DB_FAILED";
             $errorMsg = "There's a problem with MySQL Database. Please contact administrator.<br>Error Details: ". mysqli_error();
             $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
+            $_SESSION['academicprofile_success_msg'] = NULL;
             header("location:../community-categories.php");
         }
 

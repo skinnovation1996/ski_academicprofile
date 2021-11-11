@@ -35,14 +35,14 @@ if(isset($_POST['edit-button'])){
             $errorCode = "FILE_ALREADY_EXISTS";
             $errorMsg = "$file - File already exists in our server. Please rename and try again!";
             $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
+            $_SESSION['academicprofile_success_msg'] = NULL;
             header("location:../value.php");
         }
         else if($filesize > 3000000){
             $errorCode = "FILE_SIZE_TOO_LARGE";
             $errorMsg = "$file - The selected file size is too large! Maximum 3MB allowed";
             $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
+            $_SESSION['academicprofile_success_msg'] = NULL;
             header("location:../value.php");
         }
                         
@@ -53,7 +53,7 @@ if(isset($_POST['edit-button'])){
                 $errorCode = "SQL_DB_FAILED";
                 $errorMsg = "There's a problem with MySQL Database. Please contact administrator.<br>Error Details: ". mysqli_error();
                 $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-                $_SESSION['academicprofile_success_msg'] = "";
+                $_SESSION['academicprofile_success_msg'] = NULL;
                 header("location:../value.php");
             }
             unlink("../uploads/values/" . basename($old_file));
@@ -61,7 +61,7 @@ if(isset($_POST['edit-button'])){
             $errorCode = "UPLOAD_FAILED";
             $errorMsg = "$file - File upload failed. Please try again later.";
             $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
+            $_SESSION['academicprofile_success_msg'] = NULL;
             header("location:../value.php");
         }
     }
@@ -76,7 +76,7 @@ if(isset($_POST['edit-button'])){
             $errorCode = "SQL_DB_FAILED";
             $errorMsg = "There's a problem with MySQL Database. Please contact administrator.<br>Error Details: ". mysqli_error();
             $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
+            $_SESSION['academicprofile_success_msg'] = NULL;
             header("location:../value.php");
         }
 

@@ -6,7 +6,7 @@ $user_check = $_SESSION['user_login'];
 $user_role = $_SESSION['user_role'];
 
 if($user_role == "Admin" || $user_role == "Super Admin" || $user_role == "Academic Lecturer" || $user_role == "Consultant" || $user_role == "Teacher"){
-    $ses_sql = mysqli_query($conn,"select admin_id, admin_name, role, university from tbl_admin where admin_id = '$user_check'");
+    $ses_sql = mysqli_query($conn,"select admin_id, admin_name, role, university, plan, credits from tbl_admin where admin_id = '$user_check'");
    
     $row = mysqli_fetch_array($ses_sql,MYSQLI_ASSOC);
     
@@ -15,6 +15,8 @@ if($user_role == "Admin" || $user_role == "Super Admin" || $user_role == "Academ
     $login_super_owner = $row['admin_id'];
     $user_role= $row['role'];
     $owner_university = $row['university'];
+    $owner_credits = $row['credits'];
+    $owner_plan = $row['plan'];
     if($login_session == "super_admin")
         $navbar = "superadmin-navbar.php";
     else

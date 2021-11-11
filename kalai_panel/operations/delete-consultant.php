@@ -11,15 +11,17 @@ $successMsg = "";
 
 if(isset($_POST['delete-button'])){
     $sqlgetid = $_POST['oldid'];
-    $sql = mysqli_query($conn, "SELECT * from tbl_admin WHERE id='$sqlgetid'");
+    $sql = mysqli_query($conn, "SELECT * from tbl_admin WHERE id='$sqlgetid' AND role='Consultant'");
     $row = mysqli_fetch_array($sql);
     $super_owner = $row['admin_id'];
+    $email = $row['email'];
+    $name = $row['name'];
     $old_file = $row['profile_pic'];
     $old_file2 = $row['front_pic'];
 
     if($errorCode == NULL){
 
-        //DELETE ALL INFORMATION!
+        //DELETE ALL INFORMATION! RESERVED
         $sql = mysqli_query($conn, "DELETE FROM tbl_abstract WHERE super_owner='$super_owner'");
         $sql2 = mysqli_query($conn, "ALTER TABLE tbl_abstract drop `id`");
         $sql3 = mysqli_query($conn, "ALTER TABLE tbl_abstract add `id` int not null auto_increment primary key first");
@@ -52,21 +54,22 @@ if(isset($_POST['delete-button'])){
             $errorCode = "SQL_DB_FAILED";
             $errorMsg = "There's a problem with MySQL Database. Please contact administrator.<br>Error Details: ". mysqli_error();
             $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
-            header("location:../value.php");
+            $_SESSION['academicprofile_success_msg'] = NULL;
+            header("location:../consultants.php");
         }
 
     }
 
     if($errorCode == NULL){
-        unlink("../uploads/values/" . basename($old_file));
-        $sql2 = mysqli_query($conn, "ALTER TABLE tbl_value drop `id`");
+        unlink("../uploads/values/$super_owner/" . basename($old_file));
+        $sql2 = mysqli_query($conn, "ALTER TABLE tbl_admin drop `id`");
 
-        $sql3 = mysqli_query($conn, "ALTER TABLE tbl_value add `id` int not null auto_increment primary key first");
+        $sql3 = mysqli_query($conn, "ALTER TABLE tbl_admin add `id` int not null auto_increment primary key first");
 
-        $_SESSION['academicprofile_success_msg'] = "You have successfully removed the value!";
+        //reserved send confirmation email to the user
+        $_SESSION['academicprofile_success_msg'] = "You have successfully removed the consultant! An email has been sent to the user informing the deletion.";
         $_SESSION['academicprofile_error_msg'] = NULL;
-        header("location:../value.php");
+        header("location:../consultants.php");
     } 
 }else{
     echo "Nothing to see here!";

@@ -57,40 +57,40 @@ if(isset($_POST['submit-button'])){
             $errorCode = "FILE_ALREADY_EXISTS";
             $errorMsg = "$profile_pic - File already exists in our server. Please rename and try again!";
             $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
-            header("location:../edit-admin.php?id=$sqlgetid");
+            $_SESSION['academicprofile_success_msg'] = NULL;
+            header("location:../edit-academic-lecturer.php?id=$sqlgetid");
         }
         else if($filesize1 > 3000000){
             $errorCode = "FILE_SIZE_TOO_LARGE";
             $errorMsg = "$profile_pic - The selected file size is too large! Maximum 3MB allowed";
             $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
-            header("location:../edit-admin.php?id=$sqlgetid");
+            $_SESSION['academicprofile_success_msg'] = NULL;
+            header("location:../edit-academic-lecturer.php?id=$sqlgetid");
         }else if(!in_array($ext,$allowed)) {
 			$errorCode = "UNSUPPORTED_FILE_SIZE";
             $errorMsg = "$profile_pic - Unsupported file format (only JPG/PNG/JPEG/BMP/GIF)!";
             $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
-            header("location:../edit-admin.php?id=$sqlgetid");
+            $_SESSION['academicprofile_success_msg'] = NULL;
+            header("location:../edit-academic-lecturer.php?id=$sqlgetid");
         } 
                         
         if (move_uploaded_file($tmpprofile_pic, "../uploads/admins/$user_id/" . basename($profile_pic))) {
             $file_uploaded1 = $profile_pic;
-            $sql = mysqli_query($conn, "UPDATE tbl_admin SET profile_pic='$file_uploaded1' WHERE id='$sqlgetid' admin_id='$user_id'");
+            $sql = mysqli_query($conn, "UPDATE tbl_admin SET profile_pic='$file_uploaded1' WHERE id='$sqlgetid' admin_id='$user_id' AND role='Academic Lecturer'");
             if($sql === false){
                 $errorCode = "SQL_DB_FAILED";
                 $errorMsg = "There's a problem with MySQL Database. Please contact administrator.<br>Error Details: ". mysqli_error();
                 $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-                $_SESSION['academicprofile_success_msg'] = "";
-                header("location:../edit-admin.php?id=$sqlgetid");
+                $_SESSION['academicprofile_success_msg'] = NULL;
+                header("location:../edit-academic-lecturer.php?id=$sqlgetid");
             }
             unlink("../uploads/admins/$user_id/" . basename($old_file));
         } else {
             $errorCode = "UPLOAD_FAILED";
             $errorMsg = "$profile_pic - File upload failed. Please try again later.";
             $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
-            header("location:../edit-admin.php?id=$sqlgetid");
+            $_SESSION['academicprofile_success_msg'] = NULL;
+            header("location:../edit-academic-lecturer.php?id=$sqlgetid");
         }
     }
 
@@ -103,32 +103,32 @@ if(isset($_POST['submit-button'])){
             $errorCode = "FILE_ALREADY_EXISTS";
             $errorMsg = "$front_pic - File already exists in our server. Please rename and try again!";
             $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
-            header("location:../edit-admin.php?id=$sqlgetid");
+            $_SESSION['academicprofile_success_msg'] = NULL;
+            header("location:../edit-academic-lecturer.php?id=$sqlgetid");
         }
         else if($filesize2 > 3000000){
             $errorCode = "FILE_SIZE_TOO_LARGE";
             $errorMsg = "$front_pic - The selected file size is too large! Maximum 3MB allowed";
             $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
-            header("location:../edit-admin.php?id=$sqlgetid");
+            $_SESSION['academicprofile_success_msg'] = NULL;
+            header("location:../edit-academic-lecturer.php?id=$sqlgetid");
         }else if(!in_array($ext2,$allowed2)) {
 			$errorCode = "UNSUPPORTED_FILE_SIZE";
             $errorMsg = "$front_pic - Unsupported file format (only JPG/PNG/JPEG/BMP/GIF)!";
             $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
-            header("location:../edit-admin.php?id=$sqlgetid");
+            $_SESSION['academicprofile_success_msg'] = NULL;
+            header("location:../edit-academic-lecturer.php?id=$sqlgetid");
         } 
                         
         if (move_uploaded_file($tmpfront_pic, "../uploads/admins/$user_id/" . basename($front_pic))) {
             $file_uploaded2 = $front_pic;
-            $sql = mysqli_query($conn, "UPDATE tbl_admin SET front_pic='$file_uploaded2' WHERE id='$sqlgetid' admin_id='$user_id'");
+            $sql = mysqli_query($conn, "UPDATE tbl_admin SET front_pic='$file_uploaded2' WHERE id='$sqlgetid' AND admin_id='$user_id' AND role='Academic Lecturer'");
             if($sql === false){
                 $errorCode = "SQL_DB_FAILED";
                 $errorMsg = "There's a problem with MySQL Database. Please contact administrator.<br>Error Details: ". mysqli_error();
                 $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-                $_SESSION['academicprofile_success_msg'] = "";
-                header("location:../edit-admin.php?id=$sqlgetid");
+                $_SESSION['academicprofile_success_msg'] = NULL;
+                header("location:../edit-academic-lecturer.php?id=$sqlgetid");
             }
             unlink("../uploads/admins/$user_id/" . basename($old_file2));
             $file_uploaded2 = $front_pic;
@@ -136,8 +136,8 @@ if(isset($_POST['submit-button'])){
             $errorCode = "UPLOAD_FAILED";
             $errorMsg = "$profile_pic - File upload failed. Please try again later.";
             $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
-            header("location:../edit-admin.php?id=$sqlgetid");
+            $_SESSION['academicprofile_success_msg'] = NULL;
+            header("location:../edit-academic-lecturer.php?id=$sqlgetid");
         }
     }
 
@@ -146,7 +146,7 @@ if(isset($_POST['submit-button'])){
         $query = "UPDATE tbl_admin SET admin_name='$name', tagline='$tagline', department='$department', faculty='$faculty', 
         university='$university', city='$city', postcode='$postcode', education_level='$academic_level', tel='$tel', fax='$fax', country='$country', specializations='$specializations', 
         email='$email', facebook='$facebook', instagram='$instagram', linkedin='$linkedin', twitter='$twitter', location='$location' 
-        WHERE id='$sqlgetid' AND admin_id='$user_id'";
+        WHERE id='$sqlgetid' AND admin_id='$user_id' AND role='Academic Lecturer'";
 
         $sql = mysqli_query($conn, $query);
 
@@ -156,16 +156,16 @@ if(isset($_POST['submit-button'])){
             $errorCode = "SQL_DB_FAILED";
             $errorMsg = "There's a problem with MySQL Database. Please contact administrator.<br>Error Details: ". mysqli_error();
             $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
-            header("location:../edit-admin.php?id=$sqlgetid");
+            $_SESSION['academicprofile_success_msg'] = NULL;
+            header("location:../edit-academic-lecturer.php?id=$sqlgetid");
         }
 
     }
 
     if($errorCode == NULL){
-        $_SESSION['academicprofile_success_msg'] = "You have successfully edited the admin profile!";
+        $_SESSION['academicprofile_success_msg'] = "You have successfully edited the academic lecturer's profile!";
         $_SESSION['academicprofile_error_msg'] = NULL;
-        header("location:../admin_manager.php");
+        header("location:../academic-lecturers.php");
     } 
 }else{
     echo "Nothing to see here!";

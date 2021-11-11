@@ -102,8 +102,8 @@ if(isset($_SESSION['academicprofile_error_msg'])){
 
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                           <a href="change-pass.php">
-                               <p>Change Password</p>
+                           <a href="my-profile.php">
+                               <p>My Profile</p>
                             </a>
                         </li>
                         <li>
@@ -125,6 +125,7 @@ if(isset($_SESSION['academicprofile_error_msg'])){
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">Add New Student</h4>
+                                <p class="category">For each student added, 50 credits will be deducted from your credit balance.</p>
                             </div>
                             <div class="content table-responsive">
                                 <?php if($successmsg != NULL){ ?>

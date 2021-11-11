@@ -5,6 +5,11 @@
             <p>Home</p>
         </a>
     </li>
+    <li class="nav-item <?php if($navactive == "16") echo "active"; ?>">
+        <a href="my-credits.php">
+            <i class="pe-7s-cash"></i><p>My Credits</p>
+        </a>
+    </li>
     <li class="nav-item <?php if($navactive == "5") echo "active"; ?>">
         <a href="journals.php">
             <i class="pe-7s-news-paper"></i><p>Journals</p>

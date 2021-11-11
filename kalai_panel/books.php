@@ -102,8 +102,8 @@ if(isset($_SESSION['academicprofile_error_msg'])){
 
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                           <a href="change-pass.php">
-                               <p>Change Password</p>
+                           <a href="my-profile.php">
+                               <p>My Profile</p>
                             </a>
                         </li>
                         <li>
@@ -265,6 +265,7 @@ if(isset($_SESSION['academicprofile_error_msg'])){
         		<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">Add Book</h4>
+                    <p class="category">For each book added, 10 credits will be deducted from your credit balance.</p>
 				</div>
 				<div class="modal-body">
                     <div class="row">

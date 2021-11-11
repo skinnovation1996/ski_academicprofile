@@ -63,6 +63,9 @@ $thisyear = date('Y');
         <ul>
           <li class="active"><a href="index.php"><i class="bx bx-home"></i> <span>Home</span></a></li>
         </ul>
+        <ul>
+          <li><a href="kalai_panel/index.php"><i class="bx bx-home"></i> <span>Log In To System</span></a></li>
+        </ul>
       </nav><!-- .nav-menu -->
       <button type="button" class="mobile-nav-toggle d-xl-none"><i class="icofont-navigation-menu"></i></button>
 

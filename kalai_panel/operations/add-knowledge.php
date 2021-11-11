@@ -18,6 +18,16 @@ if(isset($_POST['submit-button'])){
     $datetime = date('Y-m-d H:i:s');
     $date = date("Y-m-d");
 
+    $credits = 10;
+    if($owner_credits < $credits){
+        $errorCode = "NOT_ENOUGH_CREDITS";
+        $errorMsg = "You don't have enough credits to perform this action. <a href='topup-credits.php'><b>Please reload your credits.</b></a>";
+        $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
+        $_SESSION['academicprofile_success_msg'] = NULL;
+        header("location:../knowledge.php");
+    }
+    $new_credits = $owner_credits - $credits;
+
     if($errorCode == NULL){
 
         $query = "INSERT INTO tbl_knowledge(knowledge_theme, knowledge_title, knowledge_notes, knowledge_date, super_owner) 
@@ -29,13 +39,14 @@ if(isset($_POST['submit-button'])){
             $errorCode = "SQL_DB_FAILED";
             $errorMsg = "There's a problem with MySQL Database. Please contact administrator.<br>Error Details: ". mysqli_error();
             $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
+            $_SESSION['academicprofile_success_msg'] = NULL;
             header("location:../knowledge.php");
         }
 
     }
 
     if($errorCode == NULL){
+        $sql = mysqli_query($conn, "UPDATE tbl_admin SET credits='$new_credits' WHERE admin_id='$super_owner'");
         $_SESSION['academicprofile_success_msg'] = "You have successfully added the knowledge!";
         $_SESSION['academicprofile_error_msg'] = NULL;
         header("location:../knowledge.php");

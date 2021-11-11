@@ -2,9 +2,9 @@
 include("../assets/php/connectdb.php");
 require '../assets/vendor/sendgrid-php/sendgrid-php.php';
 
-$SENDGRID_API_KEY = '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';
+$SENDGRID_API_KEY = 'VOID';
 
-$sendgrid = new SendGrid(getenv('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')); //api key from SendGrid
+$sendgrid = new SendGrid(getenv('VOID')); //api key from SendGrid
 $sg_email = new SendGrid\Mail\Mail();
 
 $userid = $_POST['user_id'];
@@ -13,8 +13,7 @@ $row=mysqli_fetch_assoc($sqla);
 $super_owner = $row['admin_id'];
 $user_name = $row['admin_name'];
 
-//$receiving_email_address = $row['email'];
-$receiving_email_address = "yushairie_simcity@yahoo.com";
+$receiving_email_address = $row['email'];
 
 $sender_name = $_POST['name'];
 $sender_subject = $_POST['subject'];

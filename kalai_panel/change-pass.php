@@ -98,7 +98,7 @@ if(isset($_SESSION['academicprofile_error_msg'])){
                     <ul class="nav navbar-nav navbar-right">
                         <li>
                            <a href="change-pass.php">
-                               <p>Change Password</p>
+                               <p>My Profile</p>
                             </a>
                         </li>
                         <li>

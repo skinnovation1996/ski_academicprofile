@@ -75,7 +75,7 @@ if(isset($_SESSION['academicprofile_error_msg'])){
                 </a>
             </div>
 
-            <?php $navactive = 9; include("assets/php/Admin-navbar.php");?>
+            <?php $navactive = 16; include("assets/php/Admin-navbar.php");?>
     	</div>
     </div>
 
@@ -102,8 +102,8 @@ if(isset($_SESSION['academicprofile_error_msg'])){
 
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                           <a href="change-pass.php">
-                               <p>Change Password</p>
+                           <a href="my-profile.php">
+                               <p>My Profile</p>
                             </a>
                         </li>
                         <li>
@@ -159,140 +159,28 @@ if(isset($_SESSION['academicprofile_error_msg'])){
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Phone Number (optional)</label>
-                                                <input type="text" name="phonenumber" id="phonenumber" class="form-control" placeholder="Phone Number (optional)...">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>E-Mail (optional)</label>
-                                                <input type="email" name="email" id="email" class="form-control" placeholder="E-Mail (optional)...">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Status</label>
-                                                <select name="status" id="status" class="form-control">
-                                                    <option value="0">Active</option>
-                                                    <option value="1">Graduated</option>
-                                                    <option value="2">Pending</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Faculty/Institute</label>
-                                                <?php 
-                                                //Check if Lecturer University is from UKM
-                                                if($owner_university == "UKM" || $owner_university == "Universiti Kebangsaan Malaysia" || $owner_university == "Universiti Kebangsaan Malaysia (UKM)" 
-                                                || $owner_university == "National University of Malaysia" || $owner_university == "National University of Malaysia (UKM)"){ ?>
-                                                <select name="faculty" id="faculty" class="form-control">
-                                                    <option value="FKAB">Faculty of Engineering and Built Environment (FKAB)</option>
-                                                    <option value="FSSK">Faculty of Social Sciences and Humanities (FSSK)</option>
-                                                    <option value="FF">Faculty of Pharmacy (FF)</option>
-                                                    <option value="FPend">Faculty of Education (FPend)</option>
-                                                    <option value="FST">Faculty of Science and Technology (FST)</option>
-                                                    <option value="FPI">Faculty of Islamic Studies (FPI)</option>
-                                                    <option value="FUU">Faculty of Law (FUU)</option>
-                                                    <option value="PPUKM">Faculty of Medicine (PPUKM)</option>
-                                                    <option value="FEP">Faculty of Economics and Management (FEP)</option>
-                                                    <option value="FSK">Faculty of Health Sciences (FSK)</option>
-                                                    <option value="FPerg">Faculty of Dentistry (FPerg)</option>
-                                                    <option value="FTSM">Faculty of Information Science and Technology (FTSM)</option>
-                                                    <option value="GSB">UKM-GSB Graduate School of Business (GSB)</option>
-                                                    <option value="SELFUEL">Fuel Cell Institute (SELFUEL)</option>
-                                                    <option value="IMEN">Institute of Microengineering and Nanoelectronics (IMEN)</option>
-                                                    <option value="IPI">Institute of Climate Change (IPI)</option>
-                                                    <option value="KITA">Institute of Ethnic Studies (KITA)</option>
-                                                    <option value="IHEARS">Institute of Ear, Hearing and Speech (INSTITUTE-HEARS)</option>
-                                                    <option value="IVI">Institute of Visual Informatics (IVI)</option>
-                                                    <option value="LESTARI">Institute for Environment and Development (LESTARI)</option>
-                                                    <option value="SERI">Solar Energy Research Institute (SERI)</option>
-                                                    <option value="ATMA">Institute of The Malay World and Civilization (ATMA)</option>
-                                                    <option value="PERMATApintar">Pusat PERMATApintar Negara</option>
-                                                    <option value="INBIOSIS">Institute of Systems Biology (INBIOSIS)</option>
-                                                    <option value="IKMAS">Institute of Malaysian and International Studies (IKMAS)</option>
-                                                    <option value="HADHARI">Institute of Islam Hadhari (HADHARI)</option>
-                                                    <option value="UMBI">UKM Medical Molecular Biology Institute (UMBI)</option>
-                                                    <option value="Others">Others</option>
-                                                </select>
-                                                <br>
-                                                <input type="text" name="faculty_others" id="faculty_others" class="form-control" placeholder="State if Others">
-                                                <?php }else{ ?>
-                                                <input type="text" name="faculty" id="faculty" class="form-control" placeholder="Faculty/Institute..." required>
-                                                <?php } ?>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>University</label>
-                                                <input type="text" name="university" id="university" class="form-control" placeholder="University" value="<?php echo $owner_university;?>" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Start Year</label>
-                                                <input type="text" name="startyear" id="startyear" class="form-control" placeholder="Start Year..." required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>End Year (required for completed)</label>
-                                                <input type="text" name="endyear" id="endyear" class="form-control" placeholder="End Year...">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Research Title (optional)</label>
-                                                <input type="text" name="researchtitle" id="researchtitle" class="form-control" placeholder="Research Title..." required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Supervisor Status</label>
-                                                <select name="sv_status" id="sv_status" class="form-control">
-                                                    <option value="0">Main Supervisor</option>
-                                                    <option value="1">Co-Supervisor</option>
-                                                    <option value="2">Pending</option>
-                                                    <option value="3">Committee</option>
+                                                <label>Payment Method</label>
+                                                <select name="payment_method" id="payment_method" class="form-control">
+                                                <?php
+                                                $sql = mysqli_query($conn, "SELECT * FROM tbl_cards WHERE admin_id='$login_super_owner'");
+                                                while($row = mysqli_fetch_assoc($sql)){
+                                                    $card_id = $row['card_id'];
+                                                    $card_num = $row['card_num'];
+                                                    $card_type = $row['type'];
+                                                    
+                                                ?>
+                                                <option value="<?php echo $card_num;?>"><?php echo substr_replace($card_num,"xxxxxxxxxxxx",1,11);?> -- <?php echo $card_type;?></option>
+                                                <?php
+                                                }
+                                                ?>
+                                                <option value="Online Banking">Online Banking/FPX</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Funding Status</label>
-                                                <select name="funding_status" id="funding_status" class="form-control">
-                                                <?php 
-                                                $grantsql = mysqli_query($conn, "SELECT * from tbl_grant where grant_status=0 AND super_owner='$login_super_owner' ORDER BY id DESC");
-                                                $numrows = mysqli_num_rows($grantsql);
-                                                while($row=mysqli_fetch_array($grantsql)){?>
-                                                    <option value="<?php echo $row['grant_code'];?>"><?php echo $row['grant_title'];?> (<?php echo $row['grant_code'];?>)</option>
-                                                <?php } ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Password</label>
-                                                <input type="password" class="form-control" placeholder="Use matric number as password..." readonly name="passwordinput" id="passwordinput"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Student Picture (Max 3MB, JPG/BMP/GIF only)</label>
-                                                <input type="file" name="stdPicture" id="stdPicture"/>
-                                            </div>
-                                        </div>
-                                        
-                                    </div>
+                                    
                                     
                                     <button type="submit" name="submit-button" class="btn btn-info btn-fill pull-right">Submit</button>
                                     <div class="clearfix"></div>

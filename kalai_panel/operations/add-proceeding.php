@@ -39,42 +39,59 @@ if(isset($_POST['submit-button'])){
     $allowed= array("pdf","doc","docx","rtf");
     $ext = pathinfo($file, PATHINFO_EXTENSION);
 
-    if($tmpfile != NULL){
-        if(!file_exists("../uploads/proceedings/")){
-            mkdir("../uploads/proceedings/", 0777, true);
-        }
-                    
-        if(file_exists("../uploads/proceedings/" . basename($file))){
-            $errorCode = "FILE_ALREADY_EXISTS";
-            $errorMsg = "$file - File already exists in our server. Please rename and try again!";
+    $credits = 10;
+
+    //Check credits
+    if($user_role != "Student"){
+        if($owner_credits < $credits){
+            $errorCode = "NOT_ENOUGH_CREDITS";
+            $errorMsg = "You don't have enough credits to perform this action. <a href='topup-credits.php'><b>Please reload your credits.</b></a>";
             $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
+            $_SESSION['academicprofile_success_msg'] = NULL;
             header("location:../proceedings.php");
         }
-        else if($filesize > 3000000){
-            $errorCode = "FILE_SIZE_TOO_LARGE";
-            $errorMsg = "$file - The selected file size is too large! Maximum 3MB allowed";
-            $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
-            header("location:../proceedings.php");
-        }else if(!in_array($ext,$allowed)) {
-			$errorCode = "UNSUPPORTED_FILE_SIZE";
-            $errorMsg = "$file - Unsupported file format (only PDF/DOC/DOCX/RTF)!";
-            $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
-            header("location:../proceedings.php");
-        } 
-        if (move_uploaded_file($tmpfile, "../uploads/proceedings/" . basename($file))) {
-            $file_uploaded = $file;
-        } else {
-            $errorCode = "UPLOAD_FAILED";
-            $errorMsg = "$file - File upload failed. Please try again later.";
-            $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
-            header("location:../proceedings.php");
+        $new_credits = $owner_credits - $credits;
+    }
+
+    if($errorCode == NULL){
+
+        if($tmpfile != NULL){
+            if(!file_exists("../uploads/proceedings/")){
+                mkdir("../uploads/proceedings/", 0777, true);
+            }
+                        
+            if(file_exists("../uploads/proceedings/" . basename($file))){
+                $errorCode = "FILE_ALREADY_EXISTS";
+                $errorMsg = "$file - File already exists in our server. Please rename and try again!";
+                $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
+                $_SESSION['academicprofile_success_msg'] = NULL;
+                header("location:../proceedings.php");
+            }
+            else if($filesize > 3000000){
+                $errorCode = "FILE_SIZE_TOO_LARGE";
+                $errorMsg = "$file - The selected file size is too large! Maximum 3MB allowed";
+                $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
+                $_SESSION['academicprofile_success_msg'] = NULL;
+                header("location:../proceedings.php");
+            }else if(!in_array($ext,$allowed)) {
+                $errorCode = "UNSUPPORTED_FILE_SIZE";
+                $errorMsg = "$file - Unsupported file format (only PDF/DOC/DOCX/RTF)!";
+                $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
+                $_SESSION['academicprofile_success_msg'] = NULL;
+                header("location:../proceedings.php");
+            } 
+            if (move_uploaded_file($tmpfile, "../uploads/proceedings/" . basename($file))) {
+                $file_uploaded = $file;
+            } else {
+                $errorCode = "UPLOAD_FAILED";
+                $errorMsg = "$file - File upload failed. Please try again later.";
+                $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
+                $_SESSION['academicprofile_success_msg'] = NULL;
+                header("location:../proceedings.php");
+            }
+        }else{
+            $file_uploaded = NULL;
         }
-    }else{
-        $file_uploaded = NULL;
     }
 
     if($errorCode == NULL){
@@ -90,13 +107,17 @@ if(isset($_POST['submit-button'])){
             $errorCode = "SQL_DB_FAILED";
             $errorMsg = "There's a problem with MySQL Database. Please contact administrator.<br>Error Details: ". mysqli_error();
             $_SESSION['academicprofile_error_msg'] = $errorMsg . " (Error Code: $errorCode)";
-            $_SESSION['academicprofile_success_msg'] = "";
+            $_SESSION['academicprofile_success_msg'] = NULL;
             header("location:../proceedings.php");
         }
 
     }
 
     if($errorCode == NULL){
+        //deduct credits
+        if($user_role != "Student"){
+            $sql = mysqli_query($conn, "UPDATE tbl_admin SET credits='$new_credits' WHERE admin_id='$super_owner'");
+        }
         $_SESSION['academicprofile_success_msg'] = "You have successfully added the proceeding!";
         $_SESSION['academicprofile_error_msg'] = NULL;
         header("location:../proceedings.php");

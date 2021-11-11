@@ -31,7 +31,7 @@ if(isset($_SESSION['academicprofile_error_msg'])){
 	<link rel="icon" type="image/png" href="assets/img/favicon.ico">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Manage User Profiles - Academic Profile Super Admin</title>
+	<title>Manage Teachers - Academic Profile Super Admin</title>
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -75,7 +75,7 @@ if(isset($_SESSION['academicprofile_error_msg'])){
                 </a>
             </div>
 
-            <?php $navactive = 2; include("assets/php/SuperAdmin-navbar.php");?>
+            <?php $navactive = 4; include("assets/php/SuperAdmin-navbar.php");?>
     	</div>
     </div>
 
@@ -89,13 +89,13 @@ if(isset($_SESSION['academicprofile_error_msg'])){
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="admin_manager.php">Manage User Profiles</a>
+                    <a class="navbar-brand" href="teachers.php">Manage Teachers</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<p class="hidden-lg hidden-md">Manage User Profiles</p>
+								<p class="hidden-lg hidden-md">Manage Teachers</p>
                             </a>
                         </li>
                     </ul>
@@ -124,7 +124,7 @@ if(isset($_SESSION['academicprofile_error_msg'])){
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Manage User Profiles</h4>
+                                <h4 class="title">Manage Teachers</h4>
                             </div>
                             <div class="content table-responsive">
                                 <?php if($successmsg != NULL){ ?>
@@ -151,14 +151,14 @@ if(isset($_SESSION['academicprofile_error_msg'])){
                                     	<th width="10%" style="text-align:center">Photo</th>
                                     	<th width="60%" style="text-align:center">Name</th>
                                         <th width="10%" style="text-align:center">Role</th>
-                                        <th width="10%" style="text-align:center">Institution</th>
-                                        <th width="10%" style="text-align:center">No. of Students/Clients</th>
+                                        <th width="10%" style="text-align:center">School/Institution</th>
+                                        <th width="10%" style="text-align:center">No. of Students</th>
                                         <th width="10%" style="text-align:center">Actions</th>
                                     </thead>
                                     <tbody>
-                                    <a href="add-admin.php" role="button" class="add-data btn btn-success btn-sm">+ Add New User Profile</a>
+                                    <a href="add-teacher.php" role="button" class="add-data btn btn-success btn-sm">+ Add New Teacher</a>
                                         <?php
-                                        $sql = mysqli_query($conn, "SELECT * from tbl_admin WHERE admin_id NOT LIKE 'super_admin'");
+                                        $sql = mysqli_query($conn, "SELECT * from tbl_admin WHERE role='Teacher' AND admin_id NOT LIKE 'super_admin'");
                                         $rows = mysqli_num_rows($sql);
                                               
                                         if($rows){
@@ -182,7 +182,7 @@ if(isset($_SESSION['academicprofile_error_msg'])){
                                             $numStudents = mysqli_num_rows($sql2);
                                             echo $numStudents;
                                             ?></td>
-                                            <td><a href="edit-admin.php?id=<?php echo $row['id'];?>" class="btn btn-primary btn-sm" role="button">EDIT</a>
+                                            <td><a href="edit-teacher.php?id=<?php echo $row['id'];?>" class="btn btn-primary btn-sm" role="button">EDIT</a>
                                             <button type="button" data-toggle="modal" data-id="<?php echo $row['id'];?>" data-target="#ConfirmDelete" class="delete-data btn btn-danger btn-sm">DELETE</button></td>
                                         </tr>
                                         <?php } } ?>
@@ -248,7 +248,7 @@ if(isset($_SESSION['academicprofile_error_msg'])){
     
       <!-- Modal content-->
       <div class="modal-content">
-        <form action="operations/delete-admin-user.php" method="post" class="form-horizontal" enctype="multipart/form-data">
+        <form action="operations/delete-teacher.php" method="post" class="form-horizontal" enctype="multipart/form-data">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Are You Sure?</h4>

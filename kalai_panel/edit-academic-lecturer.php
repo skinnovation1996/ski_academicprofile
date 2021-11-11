@@ -11,6 +11,21 @@ if($user_role != "Super Admin"){
     header("location:index.php");
 }
 
+if(empty($_GET['id'])){
+	header('location:academic-lecturers.php');
+}
+else{
+	$sqlgetid = $_GET['id'];
+}
+
+$sqla = mysqli_query($conn, "SELECT * from tbl_admin WHERE id='$sqlgetid' AND role='Academic Lecturer' AND admin_id NOT LIKe 'super_admin'"); 
+$rows = mysqli_num_rows($sqla);
+if($rows == NULL){
+    header('location:academic-lecturers.php');
+}
+$row=mysqli_fetch_array($sqla);
+$admin_id = $row['admin_id'];
+
 if(isset($_SESSION['academicprofile_success_msg'])){
     $successmsg = $_SESSION['academicprofile_success_msg'];
     $_SESSION['academicprofile_success_msg'] = "";
@@ -31,7 +46,7 @@ if(isset($_SESSION['academicprofile_error_msg'])){
 	<link rel="icon" type="image/png" href="assets/img/favicon.ico">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Add User Profile - Academic Profile Super Admin</title>
+	<title>Edit Academic Lecturer - Academic Profile Super Admin</title>
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -89,13 +104,13 @@ if(isset($_SESSION['academicprofile_error_msg'])){
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="admin_manager.php"><<</a><a class="navbar-brand" href="add-admin.php">Add New User Profile</a>
+                    <a class="navbar-brand" href="academic-lecturers.php"><<</a><a class="navbar-brand" href="edit-academic-lecturer.php?id=<?php echo $sqlgetid;?>">Edit Academic Lecturer</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<p class="hidden-lg hidden-md">Add New User Profile</p>
+								<p class="hidden-lg hidden-md">Edit Academic Lecturer</p>
                             </a>
                         </li>
                     </ul>
@@ -124,7 +139,7 @@ if(isset($_SESSION['academicprofile_error_msg'])){
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Add New User Profile</h4>
+                                <h4 class="title">Edit Academic Lecturer</h4>
                             </div>
                             <div class="content table-responsive">
                                 <?php if($successmsg != NULL){ ?>
@@ -145,28 +160,18 @@ if(isset($_SESSION['academicprofile_error_msg'])){
                                         <b> Error - </b> <?php echo $errormsg;?></span>
                                     </div>
                                     <?php } ?>
-                                <form id="adddata" name="adddata" method="post" enctype="multipart/form-data" action="operations/add-admin-user.php">
+                                <form id="adddata" name="adddata" method="post" enctype="multipart/form-data" action="operations/edit-academic-lecturer.php">
                                     <div class="row">
-                                        <div class="col-md-2">
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                                <label>Username</label>
-                                                <input type="text" name="user_id" id="user_id" class="form-control" placeholder="Username..." required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Role</label>
-                                                <select name="role" id="role" class="form-control" required>
-                                                    <option value="Academic Lecturer">Academic Lecturer</option>
-                                                    <option value="Consultant">Consultant</option>
-                                                    <option value="Teacher">Teacher</option>
-                                                </select>
+                                                <label>User ID</label>
+                                                <input type="text" name="user_id" id="user_id" class="form-control" placeholder="User ID..." value="<?php echo $row['admin_id'];?>" readonly>
                                             </div>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>Full Name</label>
-                                                <input type="text" name="name" id="name" class="form-control" placeholder="Full Name..." required>
+                                                <input type="text" name="name" id="name" class="form-control" placeholder="Full Name..." value="<?php echo $row['admin_name'];?>" required>
                                             </div>
                                         </div>
                                     </div>
@@ -174,25 +179,25 @@ if(isset($_SESSION['academicprofile_error_msg'])){
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Tagline</label>
-                                                <input type="text" name="tagline" id="tagline" class="form-control" placeholder="Tagline..." required>
+                                                <input type="text" name="tagline" id="tagline" class="form-control" placeholder="Tagline..." value="<?php echo $row['tagline'];?>" required>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Department</label>
-                                                <input type="text" name="department" id="department" class="form-control" placeholder="Department..." required>
+                                                <input type="text" name="department" id="department" class="form-control" placeholder="Department..." value="<?php echo $row['department'];?>" required>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Faculty</label>
-                                                <input type="text" name="faculty" id="faculty" class="form-control" placeholder="Faculty..." required>
+                                                <input type="text" name="faculty" id="faculty" class="form-control" placeholder="Faculty..." value="<?php echo $row['faculty'];?>"  required>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>University</label>
-                                                <input type="text" name="university" id="university" class="form-control" placeholder="University..." required>
+                                                <input type="text" name="university" id="university" class="form-control" placeholder="University..." value="<?php echo $row['university'];?>"  required>
                                             </div>
                                         </div>
                                     </div>
@@ -200,37 +205,37 @@ if(isset($_SESSION['academicprofile_error_msg'])){
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>City</label>
-                                                <input type="text" name="city" id="city" class="form-control" placeholder="City..." required>
+                                                <input type="text" name="city" id="city" class="form-control" placeholder="City..." value="<?php echo $row['city'];?>" required>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Postcode</label>
-                                                <input type="text" name="postcode" id="postcode" class="form-control" placeholder="Postcode..." required>
+                                                <input type="text" name="postcode" id="postcode" class="form-control" placeholder="Postcode..." value="<?php echo $row['postcode'];?>" required>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <label>Education Level</label>
-                                                <input type="text" name="academic_level" id="academic_level" class="form-control" placeholder="Education Level..." required>
+                                                <label>Academic Level</label>
+                                                <input type="text" name="academic_level" id="academic_level" class="form-control" placeholder="Academic Level..." value="<?php echo $row['education_level'];?>" required>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Phone Number (optional)</label>
-                                                <input type="text" name="tel" id="tel" class="form-control" placeholder="Phone Number (optional)...">
+                                                <input type="text" name="tel" id="tel" class="form-control" placeholder="Phone Number (optional)..." value="<?php echo $row['tel'];?>" >
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Fax Number (optional)</label>
-                                                <input type="text" name="fax" id="fax" class="form-control" placeholder="Fax Number (optional)...">
+                                                <input type="text" name="fax" id="fax" class="form-control" placeholder="Fax Number (optional)..." value="<?php echo $row['fax'];?>" >
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>E-Mail (optional)</label>
-                                                <input type="email" name="email" id="email" class="form-control" placeholder="E-Mail (optional)...">
+                                                <input type="email" name="email" id="email" class="form-control" placeholder="E-Mail (optional)..." value="<?php echo $row['email'];?>" >
                                             </div>
                                         </div>
                                     </div>
@@ -240,8 +245,8 @@ if(isset($_SESSION['academicprofile_error_msg'])){
                                                 <label>Country</label>
                                                 <select name="country" id="country" class="form-control">
                                                     <?php $sql2 = mysqli_query($conn, "select country from tbl_countries");
-                                                    while($row=mysqli_fetch_assoc($sql2)){
-                                                        $country = $row['country'];
+                                                    while($row2=mysqli_fetch_assoc($sql2)){
+                                                        $country = $row2['country'];
                                                         echo "<option value='$country'";
                                                         if($country=="Malaysia"){
                                                             echo " selected='selected'";
@@ -254,7 +259,7 @@ if(isset($_SESSION['academicprofile_error_msg'])){
                                         <div class="col-md-9">
                                             <div class="form-group">
                                                 <label>Specializations</label>
-                                                <input type="text" name="specializations" id="specializations" class="form-control" placeholder="Specializations..." required>
+                                                <input type="text" name="specializations" id="specializations" class="form-control" placeholder="Specializations..." value="<?php echo $row['specializations'];?>" required>
                                             </div>
                                         </div>
                                     </div>
@@ -262,49 +267,47 @@ if(isset($_SESSION['academicprofile_error_msg'])){
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Facebook (optional)</label>
-                                                <input type="text" name="facebook" id="facebook" class="form-control" placeholder="Facebook (optional)..." >
+                                                <input type="text" name="facebook" id="facebook" class="form-control" placeholder="Facebook (optional)..." value="<?php echo $row['facebook'];?>" >
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Instagram (optional)</label>
-                                                <input type="text" name="instagram" id="instagram" class="form-control" placeholder="Instagram (optional)...">
+                                                <input type="text" name="instagram" id="instagram" class="form-control" placeholder="Instagram (optional)..." value="<?php echo $row['instagram'];?>" >
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Twitter (optional)</label>
-                                                <input type="text" name="twitter" id="twitter" class="form-control" placeholder="Twitter (optional)..." >
+                                                <input type="text" name="twitter" id="twitter" class="form-control" placeholder="Twitter (optional)..." value="<?php echo $row['twitter'];?>" >
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Linkedin (optional)</label>
-                                                <input type="text" name="linkedin" id="linkedin" class="form-control" placeholder="Linkedin (optional)...">
+                                                <input type="text" name="linkedin" id="linkedin" class="form-control" placeholder="Linkedin (optional)..." value="<?php echo $row['linkedin'];?>" >
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Password</label>
-                                                <input type="password" class="form-control" placeholder="Password..." name="passwordinput" id="passwordinput"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Profile Picture (Max 3MB)</label>
                                                 <input type="file" name="profilePicture" id="profilePicture"/>
+                                                Original File: <?php if($row['profile_pic'] != "no_image.jpg") echo $row['profile_pic']; else echo "No image";?>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Front Page Picture (Max 3MB)</label>
                                                 <input type="file" name="frontPicture" id="frontPicture"/>
+                                                Original File: <?php if($row['front_pic'] != "no_image.jpg") echo $row['front_pic']; else echo "No image";?>
                                             </div>
                                         </div>
                                     </div>
-                                    
+                                    <input type="hidden" name="id" value="<?php echo $sqlgetid;?>" id="id" />
+                                    <input type="hidden" name="oldfile" value="<?php echo $row['profile_pic'];?>" id="oldfile" />
+                                    <input type="hidden" name="oldfile2" value="<?php echo $$row['front_pic'];?>" id="oldfile2" />
                                     <button type="submit" name="submit-button" class="btn btn-info btn-fill pull-right">Submit</button>
                                     <div class="clearfix"></div>
                                 </form>
@@ -333,7 +336,7 @@ if(isset($_SESSION['academicprofile_error_msg'])){
                     </ul>
                 </nav>
                 <p class="copyright pull-right">
-                    &copy; <script>document.write(new Date().getFullYear())</script> Academic Profile System<br>
+                    &copy; <script>document.write(new Date().getFullYear())</script> Academic Profile Management System<br>
                     Theme &copy; <script>document.write(new Date().getFullYear())</script> <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
                 </p>
             </div>
